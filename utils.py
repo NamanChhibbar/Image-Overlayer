@@ -253,11 +253,11 @@ def process_text(text: str, size_choice: str, im_dim: tuple|list, word_lim: int,
 
     match size_choice:
         case "small":
-            font_size = int(4.2e-2 * im_dim[0])
+            font_size = int(4.4e-2 * im_dim[0])
         case "medium":
-            font_size = int(5.8e-2 * im_dim[0])
+            font_size = int(5.4e-2 * im_dim[0])
         case "large":
-            font_size = int(7.4e-2 * im_dim[0])
+            font_size = int(6.4e-2 * im_dim[0])
     return lines, font_size
 
 def calc_pos(lines: list[str], padding: int, writer, text_font):

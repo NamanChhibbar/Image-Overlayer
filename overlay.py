@@ -21,9 +21,15 @@ def overlay_text(image: np.ndarray, text: str, font_face: str, text_color: tuple
     """
 
     # Limits
-    word_lim = 18
+    match size_choice:
+        case "small":
+            word_lim = 30
+        case "medium":
+            word_lim = 25
+        case "large":
+            word_lim = 20       
     words_per_line = 5
-    chars_per_line = 25
+    chars_per_line = 20
 
     # Safety checks
     if not isinstance(image, np.ndarray):
