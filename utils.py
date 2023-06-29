@@ -29,10 +29,10 @@ class K_means:
 
     def _update_clusters(self) -> list[list[np.ndarray]]:
         """
-        Updates clusters based on current centroids.
+        Updates clusters based on current centroids
 
         Returns
-            clusters: List of updated clusters.
+            clusters: List of updated clusters
         """
         clusters = []
         for i in range(self.k): clusters.append([])
@@ -52,10 +52,10 @@ class K_means:
     
     def _update_centroids(self) -> list[np.ndarray]:
         """
-        Updates centroids by taking mean of the respective cluster.
+        Updates centroids by taking mean of the respective cluster
 
         Returns
-            centroids: List of updated centroids.
+            centroids: List of updated centroids
         """
         centroids = self.centroids
         clusters = self.clusters
@@ -82,10 +82,10 @@ class K_means:
     
     def _update_cost(self) -> int:
         """
-        Updates the cost.
+        Updates the cost
 
         Returns
-            cost: Updated cost.
+            cost: Updated cost
         """
         centroids = self.centroids
         clusters = self.clusters
@@ -98,13 +98,13 @@ class K_means:
 
     def run(self, threshold: float) -> list[list[np.ndarray]]:
         """
-        Runs the K-means algorithm until cost > threshold.
+        Runs the K-means algorithm until cost > threshold
 
         Parameters
-            threshold: Specifies when to stop K-means.
+            threshold: Specifies when to stop K-means
 
         Returns
-            clusters: List of clusters at the end of K-means.
+            clusters: List of clusters at the end of K-means
         """
         prev_cost = self._update_cost()
         while True:
@@ -119,7 +119,7 @@ class K_means:
 
 class Edge:
     """
-    Class to generate and handle edges in an image.
+    Class to generate and handle edges in an image
     """
     
     image: np.ndarray
@@ -133,14 +133,15 @@ class Edge:
 
     def create_grid(self, n: int, threshold: float) -> np.ndarray:
         """
-        Creates an n x n grid in edges image. A cell has value 1 if number of white pixels in it are above the given threshold.
+        Creates an n x n grid in edges image
+        A cell has value 1 if number of white pixels in it are above the given threshold
 
         Parameters
-            n: Size of the grid.
-            threshold: Number of white pixels in a cell above which cell has value 1.
+            n: Size of the grid
+            threshold: Number of white pixels in a cell above which cell has value 1
 
         Retruns
-            grid: 2D numpy array containing cell values.
+            grid: 2D numpy array containing cell values
         """
         edges = self.edges
         h, w = edges.shape
@@ -160,14 +161,14 @@ class Edge:
     
     def rectangle_pos(self, rec_dim: tuple|list, error: float) -> np.ndarray:
         """
-        Finds the optimal positions for a rectangle with given dimensions based on number of cells with value 1.
+        Finds the optimal positions for a rectangle with given dimensions based on number of cells with value 1
 
         Parameters
-            rec_dim: Dimensions of the rectangle in the format (length, breadth).
-            error: Maximum fraction of cells with 0 value in rectangle.
+            rec_dim: Dimensions of the rectangle in the format (length, breadth)
+            error: Maximum fraction of cells with 0 value in rectangle
 
         Returns
-            pos: 2D numpy array containing optimal positions of rectangle.
+            pos: 2D numpy array containing optimal positions of rectangle
         """
         b, l = self.edges.shape
         grid = self.grid
@@ -192,15 +193,15 @@ class Edge:
 
 def create_mask(image: np.ndarray, im_dim: tuple, mask_choice: str, mask_dim: np.ndarray, brightness: float):
     """
-    Creates a mask over the given image.
+    Creates a mask over the given image
 
     Parameters
-        im_dim: Dimensions of the image in the format (length, breadth).
-        mask_choice: Choice of mask. Must be one of whole, top, bottom, left, or right.
-        brightness: Specifies the brightness of the mask. Must be between 0 and 1.
+        im_dim: Dimensions of the image in the format (length, breadth)
+        mask_choice: Choice of mask (whole, top, bottom, left, or right)
+        brightness: Specifies the brightness of the mask, between 0 and 1
 
     Returns
-        image: Image with mask.
+        image: Image with mask
     """
     match mask_choice:
         case "whole":
@@ -221,18 +222,18 @@ def create_mask(image: np.ndarray, im_dim: tuple, mask_choice: str, mask_dim: np
 
 def process_text(text: str, size_choice: str, im_dim: tuple|list, word_lim: int, char_lim: int):
     """
-    Creates lines based on word and characters limits and calculates font size based on size_choice and image length.
+    Creates lines based on word and characters limits and calculates font size based on size_choice and image length
 
     Parameters
-        text: Text to process.
-        size_choice: Size of text to overlay. Must be one of small, medium, or large.
+        text: Text to process
+        size_choice: Size of text to overlay (small, medium, or large)
         im_dim: Dimensions of image in the format (length, breadth)
-        word_lim: Maximum number of words in a line.
-        char_lim: Maximum number of characters in a line.
+        word_lim: Maximum number of words in a line
+        char_lim: Maximum number of characters in a line
 
     Returns
-        lines: List of strings denoting each line.
-        font_size: Absolute value of font size.
+        lines: List of strings denoting each line
+        font_size: Absolute value of font size
     """
     words = text.split()
     lines = []
@@ -262,16 +263,16 @@ def process_text(text: str, size_choice: str, im_dim: tuple|list, word_lim: int,
 
 def calc_pos(lines: list[str], padding: int, writer, text_font):
     """
-    Calculates position of lines relative to upper left corner of rectangle.
+    Calculates position of lines relative to upper left corner of rectangle
 
     Parameters
-        lines: List of lines.
-        padding: Padding between the lines.
-        writer: PIL writer object.
-        text_font: PIL font object.
+        lines: List of lines
+        padding: Padding between the lines
+        writer: PIL writer object
+        text_font: PIL font object
 
     Returns
-        2D numpy array containing position of each line in a row.
+        2D numpy array containing position of each line in a row
     """
     rec_dim = [0, (len(lines) - 1) * padding]
     x_pos = []
@@ -288,16 +289,16 @@ def calc_pos(lines: list[str], padding: int, writer, text_font):
 
 def process_image(image: np.ndarray, strip_frac: float, blur_frac: float, blur: int):
     """
-    Pre-processes image by stripping off the sides and blurring the center for the edges finding algorithm.
+    Pre-processes image by stripping off the sides and blurring the center for the edges finding algorithm
 
     Parameters
-        image: Image to be processed.
-        strip_frac: Fraction of image dimensions to be stripped.
-        blur_frac: Fraction of image dimensions to be blurred.
-        blur: Intensity of blur.
+        image: Image to be processed
+        strip_frac: Fraction of image dimensions to be stripped
+        blur_frac: Fraction of image dimensions to be blurred
+        blur: Intensity of blur
     
     Returns
-        Processed image.
+        Processed image
     """
     b, l = image.shape[:2]
     strip_l = int(l * strip_frac / 2)
@@ -309,22 +310,21 @@ def process_image(image: np.ndarray, strip_frac: float, blur_frac: float, blur: 
         image[b//2-blur_b: b//2+blur_b, l//2-blur_l: l//2+blur_l] = cv2.blur(blur_cut, (blur, blur))
     return image[strip_b: b-strip_b, strip_l: l-strip_l], strip_l, strip_b
 
-def best_spot(image: np.ndarray, n: int, rec_dim: tuple[int, int], num_clst: int, seed: int, im_num):
+def best_spot(image: np.ndarray, n: int, rec_dim: tuple[int, int], num_clst: int, seed: int):
     """
-    Finds the best spot to place the rectangle.
+    Finds the best spot to place the rectangle
 
     Parameters
-        image: The image.
-        n: Size of grid to create in edges image.
-        rec_dim: Dimensions of rectangle in the format (length, breadth).
-        num_clust: Number of clusters to create using K-means.
-        seed: Seed to use in K-means.
+        image: The image
+        n: Size of grid to create in edges image
+        rec_dim: Dimensions of rectangle in the format (length, breadth)
+        num_clust: Number of clusters to create using K-means
+        seed: Seed to use in K-means
     
     Returns
-        best_pos: Best spot for the rectangle.
+        best_pos: Best spot for the rectangle
     """
     edge_inst = Edge(image)
-    cv2.imwrite(f"/Users/naman/Desktop/Examples/edges/edges{im_num}.jpg", edge_inst.edges)
 
     th = 0
     while True:
@@ -338,9 +338,6 @@ def best_spot(image: np.ndarray, n: int, rec_dim: tuple[int, int], num_clst: int
         if (positions.size > 0):
             break
         e += 0.04
-    print(f"e: {e}")
-    print(f"th: {th}")
-    print(f"num of positions: {positions.shape[0]}")
     
     k_inst = K_means(positions.astype(float), num_clst, seed)
     k_inst.run(0.05)
