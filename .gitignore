@@ -1,2 +1,6 @@
 __pycache__
 __main__.py
+bin/
+include/
+lib/
+pyvenv.cfg
