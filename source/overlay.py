@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 
-from utils import process_text, create_mask, calc_pos, process_image, best_spot
+from .utils import process_text, create_mask, calc_pos, process_image, best_spot
 
 def overlay_text(image: np.ndarray, text: str, font_face: str, text_color: tuple|list=(255, 255, 255), size_choice: str="large", mask_choice: str="none", mask_frac: float=0.5):
     """
