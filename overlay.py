@@ -14,7 +14,7 @@ def overlay_text(image: np.ndarray, text: str, font_face: str, text_color: tuple
         text_color: Color of text to overlay in the form (R, G, B).
         size_choice: Size of text to overlay. Must be one of small, medium, or large.
         mask_choice: Choice of mask to apply. Must be one of none, whole, top, bottom, left, or right.
-        mask_ratio: Fraction of dimension to be covered in cases of top, bottom, left, or right masking options.
+        mask_frac: Fraction of dimension to be covered in cases of top, bottom, left, or right masking options.
 
     Returns
         output: PIL image with text overlayed
