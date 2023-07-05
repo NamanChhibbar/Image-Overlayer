@@ -154,7 +154,7 @@ class Edge:
             for j in range(n):
                 cell = edges[i*i_step: min((i+1)*i_step, h), j*j_step: min((j+1)*j_step, w)]
                 white_pixels = np.sum(cell == 255)
-                row.append(1 if (white_pixels < threshold * pixels_per_cell) else 0)
+                row.append(1 if white_pixels < threshold * pixels_per_cell else 0)
             grid.append(row)
         self.grid = np.array(grid)
         return self.grid
@@ -179,15 +179,15 @@ class Edge:
         rec_cols = np.ceil(rec_dim[0] / cell_l).astype(int)
         num_cells = rec_rows * rec_cols
         pos = []
-        if (rec_cols > n):
+        if rec_cols > n:
             raise ValueError("Length of rectangle is too large for length of image")
-        if (rec_rows > n):
+        if rec_rows > n:
             raise ValueError("Breadth of rectangle is too large for breadth of image")
         for i in range(0, n - rec_rows + 1, 2):
             for j in range(0, n - rec_cols + 1, 2):
                 rec = grid[i: i+rec_rows, j: j+rec_cols]
                 on_cells = np.sum(rec)
-                if (on_cells >= (1 - error) * num_cells):
+                if on_cells >= (1 - error) * num_cells:
                     pos.append([j * cell_l, i * cell_b])
         return np.array(pos)
 
@@ -303,7 +303,7 @@ def process_image(image: np.ndarray, strip_frac: float, blur_frac: float, blur: 
     b, l = image.shape[:2]
     strip_l = int(l * strip_frac / 2)
     strip_b = int(b * strip_frac / 2)
-    if (blur_frac > 0):
+    if blur_frac > 0:
         blur_l = int(l * blur_frac / 2)
         blur_b = int(b * blur_frac / 2)
         blur_cut = image[b//2-blur_b: b//2+blur_b, l//2-blur_l: l//2+blur_l]
@@ -329,13 +329,13 @@ def best_spot(image: np.ndarray, n: int, rec_dim: tuple[int, int], num_clst: int
     th = 0
     while True:
         edge_inst.create_grid(n, th)
-        if (np.any(edge_inst.grid)):
+        if np.any(edge_inst.grid):
             break
         th += 0.001
     e = 0
     while True:
         positions = edge_inst.rectangle_pos(rec_dim, e)
-        if (positions.size > 0):
+        if positions.size > 0:
             break
         e += 0.04
     
@@ -349,7 +349,7 @@ def best_spot(image: np.ndarray, n: int, rec_dim: tuple[int, int], num_clst: int
         x, y = pos
         rect = edge_inst.edges[y: y + rec_dim[1], x: x + rec_dim[0]]
         white_pix = np.sum(rect == 255)
-        if (white_pix < min_white or min_white == -1):
+        if white_pix < min_white or min_white == -1:
             best_pos = pos
             min_white = white_pix
     return best_pos
