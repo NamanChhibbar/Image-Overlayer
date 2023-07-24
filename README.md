@@ -1,4 +1,4 @@
-# ImageOverlay
+# Image Overlay
 Overlay text on images with masking options or using an AI-driven algorithm which finds an optimal spot on the image.
 
 ## overlay.py
